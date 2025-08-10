@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -21,12 +23,17 @@ public class DataSeeder implements CommandLineRunner {
         if (repo.count() == 0) {
             Set<String> usernames = new HashSet<>();
             int count = 0;
+            List<User> users = new ArrayList<>();
             while (count < 1000000) {
                 String username = faker.name().username();
                 if (usernames.add(username)) {
                     String fullname = faker.name().fullName();
-                    repo.save(new User(null, username, fullname));
+                    users.add(new User(null, username, fullname));
                     count++;
+                }
+                if (users.stream().count() == 10000) {
+                    repo.saveAll(users);
+                    users.clear();
                 }
             }
             System.out.println("Seeded 1 000 000 unique users!");

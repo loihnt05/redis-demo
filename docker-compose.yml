@@ -5,12 +5,32 @@ services:
     container_name: java_db
     image: postgres:16
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+    container_name: redis-demo
+    depends_on:
+      - java_db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://java_db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_JDBC_BATCH_SIZE: 100
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_PROPERTIES_HIBERNATE_ORDER_INSERTS: "true"
+    ports:
+      - "8080:8080"
+
 volumes:
-  pgdata: {}
+  pgdata:
