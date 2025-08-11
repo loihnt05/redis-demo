@@ -39,4 +39,8 @@ public class UserService {
         }
         return user;
     }
+
+    public boolean checkUsername(String username) {
+        return findUserByUsername(username) != null;
+    }
 }
