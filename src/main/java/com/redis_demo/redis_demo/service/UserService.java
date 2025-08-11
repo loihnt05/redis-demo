@@ -19,10 +19,24 @@ public class UserService {
     }
 
     public User findUserById(String id) {
-        return userRepository.findById(id).orElse(null);
+        log.info("Searching for user with id: {}", id);
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            log.warn("User not found with id: {}", id);
+        } else {
+            log.info("Found user: {}", user.getUsername());
+        }
+        return user;
     }
 
     public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+        log.info("Searching for user with username: {}", username);
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) {
+            log.warn("User not found with username: {}", username);
+        } else {
+            log.info("Found user: {}", user.getId());
+        }
+        return user;
     }
 }
