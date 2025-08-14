@@ -18,3 +18,11 @@ spring:
           batch_size: 10000
         dialect: org.hibernate.dialect.PostgreSQLDialect
         order_inserts: true
+  data:
+    redis:
+      host: redis-19403.c10.us-east-1-2.ec2.redns.redis-cloud.com
+      port: 19403
+      username: default
+      password: KYOnEyPSDwXcpbVNAKeUeJOa2St0mQnJ
+  cache:
+    type: redis

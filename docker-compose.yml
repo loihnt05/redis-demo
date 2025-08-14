@@ -12,7 +12,6 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
-
   app:
     build:
       context: .
