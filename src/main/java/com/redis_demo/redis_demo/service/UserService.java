@@ -1,5 +1,6 @@
 package com.redis_demo.redis_demo.service;
 
+import com.google.common.hash.BloomFilter;
 import com.redis_demo.redis_demo.enity.User;
 import com.redis_demo.redis_demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final BloomFilter<String> bloomFilter;
 
     @Cacheable(value = "users_all")
     public List<User> findAllUsers() {
@@ -35,6 +37,9 @@ public class UserService {
 
     @Cacheable(value = "users_by_username", key = "#username")
     public User findUserByUsername(String username) {
+        if (!bloomFilter.mightContain(username)) {
+            return null;
+        }
         log.info("Searching for user with username: {}", username);
         User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) {
