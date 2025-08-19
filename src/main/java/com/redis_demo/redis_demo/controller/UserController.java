@@ -29,8 +29,13 @@ public class UserController {
         return userService.findUserByUsername(username);
     }
 
+    @PostMapping(value = "/user/create")
+    public void createUser(@RequestBody UserRequest request) {
+        userService.saveUser(new User(null, request.getUsername(), request.getFullName()));
+    }
+
     @PostMapping("/exists")
-    public boolean checkUsername(@RequestBody UserRequest request) {
-        return userService.findUserByUsername(request.getUsername()) != null;
+    public boolean checkUsername(@RequestBody String username) {
+        return userService.findUserByUsername(username) != null;
     }
 }

@@ -50,6 +50,11 @@ public class UserService {
         return user;
     }
 
+    public void saveUser(User user) {
+        userRepository.save(user);
+        bloomFilter.put(user.getUsername());
+    }
+
     @CacheEvict(value = {"users", "users_by_username", "users_all"}, allEntries = true)
     public boolean checkUsername(String username) {
         return findUserByUsername(username) != null;
