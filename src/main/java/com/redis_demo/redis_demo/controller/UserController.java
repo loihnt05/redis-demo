@@ -1,5 +1,6 @@
 package com.redis_demo.redis_demo.controller;
 
+import com.redis_demo.redis_demo.dto.HahaResponse;
 import com.redis_demo.redis_demo.dto.UserRequest;
 import com.redis_demo.redis_demo.enity.User;
 import com.redis_demo.redis_demo.service.UserService;
@@ -32,6 +33,12 @@ public class UserController {
     @PostMapping(value = "/user/create")
     public void createUser(@RequestBody UserRequest request) {
         userService.saveUser(new User(null, request.getUsername(), request.getFullName()));
+    }
+    @GetMapping("/haha")
+    public HahaResponse haha() {
+        var response = new HahaResponse();
+        response.setMessage("cuccut");
+        return response;
     }
 
     @PostMapping("/exists")
